@@ -11,7 +11,7 @@ const percent = document.querySelector("#percent");
 const decimal = document.querySelector("#decimal");
 let opOne = 0;
 let opTwo = 0;
-let operator = null; // Initialize operator as null
+let operator = null;
 let prevResult = 0;
 
 function makeOperation() {
@@ -43,6 +43,13 @@ function activate(botao) {
 function number(n) {
     if (result.innerText === "0" || parseFloat(result.innerText) === parseFloat(opOne) || parseFloat(result.innerText) === parseFloat(prevResult) || parseFloat(result.innerText) === (parseFloat(prevResult)) * -1) {
         result.innerText = n;
+    } else if (n == '.') {
+        if (!result.innerText.includes(".")) {
+            if (result.innerText === "0") {
+                result.innerText = '0';
+            }
+            result.innerText = result.innerText + '.';
+        }
     } else {
         result.innerText += n;
     }
@@ -57,9 +64,7 @@ function operation(op) {
 }
 
 decimal.addEventListener("click", () => {
-    if (!result.innerText.includes(".")) {
-        result.innerText = result.innerText + '.';
-    }
+    number('.')
 });
 
 reset.addEventListener("click", () => {
@@ -107,42 +112,10 @@ percent.addEventListener("click", () => {
     result.innerText = opOne / 100;
 });
 
-buttonZero.addEventListener("click", () => {
-    number(0)
-})
-
-buttonOne.addEventListener("click", () => {
-    number(1)
-})
-
-buttonTwo.addEventListener("click", () => {
-    number(2)
-})
-
-buttonThree.addEventListener("click", () => {
-    number(3)
-})
-
-buttonFour.addEventListener("click", () => {
-    number(4)
-})
-
-buttonFive.addEventListener("click", () => {
-    number(5)
-})
-
-buttonSix.addEventListener("click", () => {
-    number(6)
-})
-
-buttonSeven.addEventListener("click", () => {
-    number(7)
-})
-
-buttonEight.addEventListener("click", () => {
-    number(8)
-})
-
-buttonNine.addEventListener("click", () => {
-    number(9)
-})
+buttons.forEach(function (button) {
+    if (button.id.startsWith("button")) {
+        button.addEventListener("click", () => {
+            number(button.innerText);
+        });
+    }
+});
