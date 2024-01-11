@@ -33,24 +33,27 @@ function makeOperation() {
     opTwo = 0;
 }
 
-function activate(botao) {
+function activate(thisButton) {
     buttons.forEach(function (button) {
         button.classList.remove('await');
     });
-    botao.classList.add('await');
+    thisButton.classList.add('await');
 }
 
 function number(n) {
-    if (result.innerText === "0" || parseFloat(result.innerText) === parseFloat(opOne) || parseFloat(result.innerText) === parseFloat(prevResult) || parseFloat(result.innerText) === (parseFloat(prevResult)) * -1) {
-        result.innerText = n;
-    } else if (n == '.') {
-        if (!result.innerText.includes(".")) {
-            if (result.innerText === "0") {
-                result.innerText = '0';
-            }
+    if (result.innerText !== "0."){
+        if (result.innerText === "0" && n == "."){
             result.innerText = result.innerText + '.';
+        } else if (result.innerText === "0" || parseFloat(result.innerText) === parseFloat(opOne) || parseFloat(result.innerText) === parseFloat(prevResult) || parseFloat(result.innerText) === (parseFloat(prevResult)) * -1) {
+            result.innerText = n;
+        } else if (n == '.') {
+            if (!result.innerText.includes(".")) {
+                result.innerText = result.innerText + '.';
+            }
+        } else {
+            result.innerText += n;
         }
-    } else {
+    } else if (result.innerText === "0.") {
         result.innerText += n;
     }
 }
