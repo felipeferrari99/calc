@@ -15,24 +15,32 @@ let operator = null;
 let prevResult = 0;
 let length = 0;
 
-function number(n) {
+function error() {
+    if (result.innerText.includes("e") || result.innerText.includes(NaN)) {
+        result.innerText = "err";
+        buttons.disabled = true;
+        reset.disabled = false;
+    }
+}
+
+function number(num) {
     if (length < 10) {
         if (result.innerText !== "0.") {
-            if (result.innerText === "0" && n == ".") {
+            if (result.innerText === "0" && num == ".") {
                 result.innerText = result.innerText + '.';
-            } else if (result.innerText === "0" || parseFloat(result.innerText) === parseFloat(opOne) || parseFloat(result.innerText) === parseFloat(prevResult) || parseFloat(result.innerText) === (parseFloat(prevResult)) * -1) {
-                result.innerText = n;
-            } else if (n == '.') {
-                if (!result.innerText.includes(".")) {
-                    result.innerText = result.innerText + '.';
-                } else if (parseFloat(result.innerText) === parseFloat(opOne) || parseFloat(result.innerText) === parseFloat(prevResult) || parseFloat(result.innerText) === (parseFloat(prevResult)) * -1) {
+            } else if (num != '.' && (result.innerText === "0" || parseFloat(result.innerText) === parseFloat(opOne) || parseFloat(result.innerText) === parseFloat(prevResult) || parseFloat(result.innerText) === (parseFloat(prevResult)) * -1)) {
+                result.innerText = num;
+            } else if (num == '.') {
+                if (parseFloat(result.innerText) === parseFloat(opOne) || parseFloat(result.innerText) === parseFloat(prevResult) || parseFloat(result.innerText) === (parseFloat(prevResult)) * -1) {
                     result.innerText = "0.";
+                } else if (!result.innerText.includes(".")) {
+                    result.innerText = result.innerText + '.';
                 }
             } else {
-                result.innerText += n;
+                result.innerText += num;
             }
         } else if (result.innerText === "0.") {
-            result.innerText += n;
+            result.innerText += num;
         }
         length = result.innerText.length;
     }
@@ -61,6 +69,7 @@ function makeOperation() {
             calculationResult = opOne / opTwo;
         }
     }
+    error();
     result.innerText = parseFloat(calculationResult);
     prevResult = result.innerText;
     opOne = parseFloat(result.innerText);
@@ -97,6 +106,7 @@ reset.addEventListener("click", () => {
     buttons.forEach(function (button) {
         button.classList.remove('await');
     });
+    buttons.disabled = false;
 });
 
 negative.addEventListener("click", () => {
@@ -107,6 +117,7 @@ equals.addEventListener("click", () => {
     makeOperation();
     operator = null;
     length = 0;
+    error();
 });
 
 add.addEventListener("click", () => {
@@ -137,6 +148,7 @@ percent.addEventListener("click", () => {
     opTwo = 0;
     operator = null;
     length = 0;
+    error();
 });
 
 buttons.forEach(function (button) {
