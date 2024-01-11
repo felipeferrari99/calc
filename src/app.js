@@ -13,6 +13,30 @@ let opOne = 0;
 let opTwo = 0;
 let operator = null;
 let prevResult = 0;
+let length = 0;
+
+function number(n) {
+    if (length < 10) {
+        if (result.innerText !== "0.") {
+            if (result.innerText === "0" && n == ".") {
+                result.innerText = result.innerText + '.';
+            } else if (result.innerText === "0" || parseFloat(result.innerText) === parseFloat(opOne) || parseFloat(result.innerText) === parseFloat(prevResult) || parseFloat(result.innerText) === (parseFloat(prevResult)) * -1) {
+                result.innerText = n;
+            } else if (n == '.') {
+                if (!result.innerText.includes(".")) {
+                    result.innerText = result.innerText + '.';
+                } else if (parseFloat(result.innerText) === parseFloat(opOne) || parseFloat(result.innerText) === parseFloat(prevResult) || parseFloat(result.innerText) === (parseFloat(prevResult)) * -1) {
+                    result.innerText = "0.";
+                }
+            } else {
+                result.innerText += n;
+            }
+        } else if (result.innerText === "0.") {
+            result.innerText += n;
+        }
+        length = result.innerText.length;
+    }
+}
 
 function makeOperation() {
     opTwo = parseFloat(result.innerText);
@@ -20,16 +44,24 @@ function makeOperation() {
         button.classList.remove('await');
     });
     let calculationResult;
-    if (operator === "+") {
-        calculationResult = opOne + opTwo;
-    } else if (operator === "-") {
-        calculationResult = opOne - opTwo;
-    } else if (operator === "x") {
-        calculationResult = opOne * opTwo;
-    } else if (operator === "÷") {
-        calculationResult = opOne / opTwo;
+    if (opOne == 0 && opTwo == 0) {
+        calculationResult = 0;
+    } else if (opOne == 0) {
+        calculationResult = opTwo
+    } else if (opTwo == 0) {
+        calculationResult = opOne
+    } else {
+        if (operator === "+") {
+            calculationResult = opOne + opTwo;
+        } else if (operator === "-") {
+            calculationResult = opOne - opTwo;
+        } else if (operator === "x") {
+            calculationResult = opOne * opTwo;
+        } else if (operator === "÷") {
+            calculationResult = opOne / opTwo;
+        }
     }
-    result.innerText = parseFloat(calculationResult.toFixed(10));
+    result.innerText = parseFloat(calculationResult);
     prevResult = result.innerText;
     opOne = parseFloat(result.innerText);
     opTwo = 0;
@@ -42,28 +74,11 @@ function activate(thisButton) {
     thisButton.classList.add('await');
 }
 
-function number(n) {
-    if (result.innerText !== "0."){
-        if (result.innerText === "0" && n == "."){
-            result.innerText = result.innerText + '.';
-        } else if (result.innerText === "0" || parseFloat(result.innerText) === parseFloat(opOne) || parseFloat(result.innerText) === parseFloat(prevResult) || parseFloat(result.innerText) === (parseFloat(prevResult)) * -1) {
-            result.innerText = n;
-        } else if (n == '.') {
-            if (!result.innerText.includes(".")) {
-                result.innerText = result.innerText + '.';
-            }
-        } else {
-            result.innerText += n;
-        }
-    } else if (result.innerText === "0.") {
-        result.innerText += n;
-    }
-}
-
 function operation(op) {
     if (operator !== null) {
         makeOperation();
     }
+    length = 0;
     opOne = parseFloat(result.innerText);
     operator = op;
 }
@@ -78,6 +93,7 @@ reset.addEventListener("click", () => {
     opTwo = 0;
     operator = null;
     prevResult = 0;
+    length = 0;
     buttons.forEach(function (button) {
         button.classList.remove('await');
     });
@@ -90,6 +106,7 @@ negative.addEventListener("click", () => {
 equals.addEventListener("click", () => {
     makeOperation();
     operator = null;
+    length = 0;
 });
 
 add.addEventListener("click", () => {
@@ -114,7 +131,12 @@ divide.addEventListener("click", () => {
 
 percent.addEventListener("click", () => {
     operation(percent.innerText);
-    result.innerText = opOne / 100;
+    result.innerText = parseFloat(opOne / 100);
+    prevResult = result.innerText;
+    opOne = parseFloat(result.innerText);
+    opTwo = 0;
+    operator = null;
+    length = 0;
 });
 
 buttons.forEach(function (button) {

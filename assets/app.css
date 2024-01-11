@@ -1,10 +1,19 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
 #calculator {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: end;
+    justify-content: flex-end;
     padding-bottom: 15px;
     background-color: black;
+    border-radius: 20px;
     width: 375px;
     height: 602px;
     font-family: 'Inter', sans-serif;
@@ -29,8 +38,8 @@ button {
     font-size: 2.3em;
     margin: 0.15em;
     border-radius: 75%;
-    width: 70px; /* Adjust the width as needed */
-    height: 70px; /* Adjust the height as needed */
+    width: 70px;
+    height: 70px;
     transition: background-color 0.3s ease;
 }
 
