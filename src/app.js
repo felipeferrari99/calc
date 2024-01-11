@@ -19,15 +19,17 @@ function makeOperation() {
     buttons.forEach(function (button) {
         button.classList.remove('await');
     });
+    let calculationResult;
     if (operator === "+") {
-        result.innerText = opOne + opTwo;
+        calculationResult = opOne + opTwo;
     } else if (operator === "-") {
-        result.innerText = opOne - opTwo;
+        calculationResult = opOne - opTwo;
     } else if (operator === "x") {
-        result.innerText = opOne * opTwo;
+        calculationResult = opOne * opTwo;
     } else if (operator === "÷") {
-        result.innerText = opOne / opTwo;
+        calculationResult = opOne / opTwo;
     }
+    result.innerText = parseFloat(calculationResult.toFixed(10));
     prevResult = result.innerText;
     opOne = parseFloat(result.innerText);
     opTwo = 0;
