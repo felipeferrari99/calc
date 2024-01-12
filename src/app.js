@@ -76,13 +76,13 @@ function error() {
 }
 
 function number(num) {
-    if (length < 10) {
+    if (result.innerText.length < 10) {
         if (result.innerText !== "0.") {
-            if (result.innerText === "0" && num == ".") {
+            if (result.innerText === "0" && num === ".") {
                 result.innerText = result.innerText + '.';
-            } else if (num != '.' && (result.innerText === "0" || parseFloat(result.innerText) === parseFloat(opOne) || parseFloat(result.innerText) === parseFloat(prevResult) || parseFloat(result.innerText) === (parseFloat(prevResult)) * -1)) {
+            } else if (num !== '.' && (result.innerText === "0" || parseFloat(result.innerText) === parseFloat(opOne) || parseFloat(result.innerText) === parseFloat(prevResult) || parseFloat(result.innerText) === (parseFloat(prevResult)) * -1)) {
                 result.innerText = num;
-            } else if (num == '.') {
+            } else if (num === '.') {
                 if (parseFloat(result.innerText) === parseFloat(opOne) || parseFloat(result.innerText) === parseFloat(prevResult) || parseFloat(result.innerText) === (parseFloat(prevResult)) * -1) {
                     result.innerText = "0.";
                 } else if (!result.innerText.includes(".")) {
@@ -91,10 +91,9 @@ function number(num) {
             } else {
                 result.innerText += num;
             }
-        } else if (result.innerText === "0.") {
+        } else if (result.innerText === "0." && num !== ".") {
             result.innerText += num;
         }
-        length = result.innerText.length;
     }
 }
 
