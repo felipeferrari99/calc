@@ -46,7 +46,6 @@ document.addEventListener("keydown", (event) => {
     } else if (key === 'Enter') {
         if (opTwo == 0 && operator == null){
             repeatOperation()
-            console.log("entrou")
         } else{
             makeOperation();
         }
@@ -57,6 +56,7 @@ document.addEventListener("keydown", (event) => {
         result.innerText = 0;
         opOne = 0;
         opTwo = 0;
+        prevOpTwo = 0;
         operator = null;
         prevResult = 0;
         length = 0;
@@ -166,6 +166,7 @@ reset.addEventListener("click", () => {
     result.innerText = 0;
     opOne = 0;
     opTwo = 0;
+    prevOpTwo = 0;
     operator = null;
     prevResult = 0;
     length = 0;
@@ -182,7 +183,6 @@ negative.addEventListener("click", () => {
 equals.addEventListener("click", () => {
     if (opTwo == 0 && operator == null){
         repeatOperation()
-        console.log("entrou")
     } else{
         makeOperation();
     }
