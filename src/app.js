@@ -11,7 +11,9 @@ const percent = document.querySelector("#percent");
 const decimal = document.querySelector("#decimal");
 let opOne = 0;
 let opTwo = 0;
+let prevOpTwo = 0;
 let operator = null;
+let prevOperator = null;
 let prevResult = 0;
 let length = 0;
 
@@ -93,6 +95,7 @@ function number(num) {
 
 function makeOperation() {
     opTwo = parseFloat(result.innerText);
+    prevOpTwo = opTwo;
     buttons.forEach(function (button) {
         button.classList.remove('await');
     });
@@ -117,8 +120,21 @@ function makeOperation() {
     error();
     result.innerText = parseFloat(calculationResult);
     prevResult = result.innerText;
+    prevOperator = operator;
     opOne = parseFloat(result.innerText);
     opTwo = 0;
+}
+
+function repeatOperation () {
+    if (prevOperator === "+") {
+        result.innerText = parseFloat(result.innerText) + prevOpTwo;
+    } else if (prevOperator === "-") {
+        result.innerText = parseFloat(result.innerText) - prevOpTwo;
+    } else if (prevOperator === "x") {
+        result.innerText = parseFloat(result.innerText) * prevOpTwo;
+    } else if (prevOperator === "÷") {
+        result.innerText = parseFloat(result.innerText) / prevOpTwo;
+    }
 }
 
 function activate(thisButton) {
@@ -159,7 +175,12 @@ negative.addEventListener("click", () => {
 });
 
 equals.addEventListener("click", () => {
-    makeOperation();
+    if (opTwo == 0 && operator == null){
+        repeatOperation()
+        console.log("entrou")
+    } else{
+        makeOperation();
+    }
     operator = null;
     length = 0;
     error();
