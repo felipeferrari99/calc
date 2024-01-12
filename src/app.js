@@ -15,6 +15,51 @@ let operator = null;
 let prevResult = 0;
 let length = 0;
 
+document.addEventListener("keydown", (event) => {
+    const key = event.key;
+    
+    if (!isNaN(key) || key === '.') {
+        number(key);
+    } else if (key === '+') {
+        operation(add.innerText);
+        activate(add);
+    } else if (key === '-') {
+        operation(subtract.innerText);
+        activate(subtract);
+    } else if (key === '*') {
+        operation(multiply.innerText);
+        activate(multiply);
+    } else if (key === '/') {
+        operation(divide.innerText);
+        activate(divide);
+    } else if (key === '%') {
+        operation(percent.innerText);
+        result.innerText = parseFloat(opOne / 100);
+        prevResult = result.innerText;
+        opOne = parseFloat(result.innerText);
+        opTwo = 0;
+        operator = null;
+        length = 0;
+        error();
+    } else if (key === 'Enter') {
+        makeOperation();
+        operator = null;
+        length = 0;
+        error();
+    } else if (key === 'Escape') {
+        result.innerText = 0;
+        opOne = 0;
+        opTwo = 0;
+        operator = null;
+        prevResult = 0;
+        length = 0;
+        buttons.forEach(function (button) {
+            button.classList.remove('await');
+        });
+        buttons.disabled = false;
+    }
+});
+
 function error() {
     if (result.innerText.includes("e") || result.innerText.includes(NaN)) {
         result.innerText = "err";
