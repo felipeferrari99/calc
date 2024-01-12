@@ -59,6 +59,7 @@ document.addEventListener("keydown", (event) => {
         prevOpTwo = 0;
         operator = null;
         prevResult = 0;
+        result.style.fontSize = "3em";
         length = 0;
         buttons.forEach(function (button) {
             button.classList.remove('await');
@@ -70,13 +71,21 @@ document.addEventListener("keydown", (event) => {
 function error() {
     if (result.innerText.includes("e") || result.innerText.includes(NaN)) {
         result.innerText = "err";
+        result.style.fontSize = "3em";
         buttons.disabled = true;
         reset.disabled = false;
+    } else if (result.innerText.length > 17) {
+        result.style.fontSize = "1em";
+    } else if (result.innerText.length > 10) {
+        result.style.fontSize = "2em";
+    }  else if (result.innerText.length <= 10) {
+        result.style.fontSize = "3em";
     }
 }
 
 function number(num) {
     if (length < 10) {
+        result.style.fontSize = "3em";
         if (result.innerText !== "0.") {
             if (result.innerText === "0" && num === ".") {
                 result.innerText = result.innerText + '.';
@@ -170,6 +179,7 @@ reset.addEventListener("click", () => {
     operator = null;
     prevResult = 0;
     length = 0;
+    result.style.fontSize = "3em";
     buttons.forEach(function (button) {
         button.classList.remove('await');
     });
