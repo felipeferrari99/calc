@@ -44,7 +44,12 @@ document.addEventListener("keydown", (event) => {
         length = 0;
         error();
     } else if (key === 'Enter') {
-        makeOperation();
+        if (opTwo == 0 && operator == null){
+            repeatOperation()
+            console.log("entrou")
+        } else{
+            makeOperation();
+        }
         operator = null;
         length = 0;
         error();
