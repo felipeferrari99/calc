@@ -76,7 +76,7 @@ function error() {
 }
 
 function number(num) {
-    if (result.innerText.length < 10) {
+    if (length < 10) {
         if (result.innerText !== "0.") {
             if (result.innerText === "0" && num === ".") {
                 result.innerText = result.innerText + '.';
@@ -94,6 +94,7 @@ function number(num) {
         } else if (result.innerText === "0." && num !== ".") {
             result.innerText += num;
         }
+        length = result.innerText.length;
     }
 }
 
