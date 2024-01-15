@@ -20,54 +20,67 @@ let comp = 0;
 
 document.addEventListener("keydown", (event) => {
     const key = event.key;
-    
-    if (!isNaN(key) || key === '.') {
-        number(key);
-    } else if (key === '+') {
-        operation(add.innerText);
-        activate(add);
-    } else if (key === '-') {
-        operation(subtract.innerText);
-        activate(subtract);
-    } else if (key === '*') {
-        operation(multiply.innerText);
-        activate(multiply);
-    } else if (key === '/') {
-        operation(divide.innerText);
-        activate(divide);
-    } else if (key === '%') {
-        operation(percent.innerText);
-        result.innerText = parseFloat(opOne / 100);
-        prevResult = result.innerText;
-        opOne = parseFloat(result.innerText);
-        opTwo = 0;
-        operator = null;
-        length = 0;
-        error();
-    } else if (key === 'Enter') {
-        if (opTwo == 0 && operator == null){
-            repeatOperation()
-        } else{
-            makeOperation();
-        }
-        operator = null;
-        length = 0;
-        comp = 0;
-        error();
-    } else if (key === 'Escape') {
-        result.innerText = 0;
-        opOne = null;
-        opTwo = 0;
-        prevOpTwo = 0;
-        operator = null;
-        prevResult = null;
-        length = 0;
-        comp = 0;
-        result.style.fontSize = "3em";
-        buttons.forEach(function (button) {
-            button.classList.remove('await');
-        });
-        buttons.disabled = false;
+    switch (key) {
+        case '+':
+            operation(add.innerText);
+            activate(add);
+            break;
+        case '-':
+            operation(subtract.innerText);
+            activate(subtract);
+            break;
+        case '*':
+            operation(multiply.innerText);
+            activate(multiply);
+            break;
+        case '/':
+            operation(divide.innerText);
+            activate(divide);
+            break;
+        case '%':
+            operation(percent.innerText);
+            result.innerText = Math.round(parseFloat(opOne / 100));
+            prevResult = result.innerText;
+            opOne = parseFloat(result.innerText);
+            opTwo = 0;
+            operator = null;
+            length = 0;
+            error();
+            if (result.innerText.includes(".")) {
+                result.innerText = parseFloat(result.innerText).toFixed(3);
+                error();
+            }    
+            break;
+        case 'Enter':
+            if (opTwo == 0 && operator == null) {
+                repeatOperation();
+            } else {
+                makeOperation();
+            }
+            operator = null;
+            length = 0;
+            comp = 0;
+            error();
+            break;
+        case 'Escape':
+            result.innerText = 0;
+            opOne = null;
+            opTwo = 0;
+            prevOpTwo = 0;
+            operator = null;
+            prevResult = null;
+            length = 0;
+            comp = 0;
+            result.style.fontSize = "3em";
+            buttons.forEach(function (button) {
+                button.classList.remove('await');
+            });
+            buttons.disabled = false;
+            break;
+        default:
+            if (!isNaN(key) || key === '.') {
+                number(key);
+            }
     }
 });
 
@@ -111,6 +124,9 @@ function number(num) {
             result.innerText += num;
         }
         length = result.innerText.length;
+        buttons.forEach(function (button) {
+            button.classList.remove('await');
+        });
     }
 }
 
@@ -120,42 +136,66 @@ function makeOperation() {
     buttons.forEach(function (button) {
         button.classList.remove('await');
     });
+    
     let calculationResult;
-    if (opOne == 0 && opTwo == 0) {
-        calculationResult = 0;
-    } else if (opOne == 0) {
-        calculationResult = opTwo
-    } else if (opTwo == 0) {
-        calculationResult = opOne
-    } else {
-        if (operator === "+") {
-            calculationResult = opOne + opTwo;
-        } else if (operator === "-") {
-            calculationResult = opOne - opTwo;
-        } else if (operator === "x") {
-            calculationResult = opOne * opTwo;
-        } else if (operator === "÷") {
-            calculationResult = opOne / opTwo;
-        }
+
+    switch (true) {
+        case opOne === 0 && opTwo === 0:
+            calculationResult = 0;
+            break;
+        case opOne === 0:
+            calculationResult = opTwo;
+            break;
+        case opTwo === 0:
+            calculationResult = opOne;
+            break;
+        default:
+            switch (operator) {
+                case "+":
+                    calculationResult = opOne + opTwo;
+                    break;
+                case "-":
+                    calculationResult = opOne - opTwo;
+                    break;
+                case "x":
+                    calculationResult = opOne * opTwo;
+                    break;
+                case "÷":
+                    calculationResult = opOne / opTwo;
+                    break;
+            }
     }
     error();
-    result.innerText = parseFloat(calculationResult);
+    result.innerText = calculationResult;
+    if (result.innerText.includes(".")) {
+        result.innerText = parseFloat(result.innerText).toFixed(3);
+        error();
+    }    
     prevResult = result.innerText;
     prevOperator = operator;
     opOne = parseFloat(result.innerText);
     opTwo = 0;
 }
 
-function repeatOperation () {
-    if (prevOperator === "+") {
-        result.innerText = parseFloat(result.innerText) + prevOpTwo;
-    } else if (prevOperator === "-") {
-        result.innerText = parseFloat(result.innerText) - prevOpTwo;
-    } else if (prevOperator === "x") {
-        result.innerText = parseFloat(result.innerText) * prevOpTwo;
-    } else if (prevOperator === "÷") {
-        result.innerText = parseFloat(result.innerText) / prevOpTwo;
+function repeatOperation() {
+    switch (prevOperator) {
+        case "+":
+            result.innerText = parseFloat(result.innerText) + prevOpTwo;
+            break;
+        case "-":
+            result.innerText = parseFloat(result.innerText) - prevOpTwo;
+            break;
+        case "x":
+            result.innerText = parseFloat(result.innerText) * prevOpTwo;
+            break;
+        case "÷":
+            result.innerText = parseFloat(result.innerText) / prevOpTwo;
+            break;
     }
+    if (result.innerText.includes(".")) {
+        result.innerText = parseFloat(result.innerText).toFixed(3);
+        error();
+    }    
 }
 
 function activate(thisButton) {
@@ -171,6 +211,10 @@ function operation(op) {
     }
     length = 0;
     opOne = parseFloat(result.innerText);
+    if (parseFloat(opOne) == '0.'){
+        result.innerText = 0;
+        console.log("cavalos")
+    }
     operator = op;
     comp = 0;
 }
@@ -241,6 +285,10 @@ percent.addEventListener("click", () => {
     length = 0;
     comp = 0;
     error();
+    if (result.innerText.includes(".")) {
+        result.innerText = parseFloat(result.innerText).toFixed(3);
+        error();
+    }    
 });
 
 buttons.forEach(function (button) {
