@@ -9,13 +9,14 @@ const multiply = document.querySelector("#multiply");
 const divide = document.querySelector("#divide");
 const percent = document.querySelector("#percent");
 const decimal = document.querySelector("#decimal");
-let opOne = 0;
+let opOne = null;
 let opTwo = 0;
 let prevOpTwo = 0;
 let operator = null;
 let prevOperator = null;
-let prevResult = 0;
+let prevResult = null;
 let length = 0;
+let comp = 0;
 
 document.addEventListener("keydown", (event) => {
     const key = event.key;
@@ -54,11 +55,11 @@ document.addEventListener("keydown", (event) => {
         error();
     } else if (key === 'Escape') {
         result.innerText = 0;
-        opOne = 0;
+        opOne = null;
         opTwo = 0;
         prevOpTwo = 0;
         operator = null;
-        prevResult = 0;
+        prevResult = null;
         result.style.fontSize = "3em";
         length = 0;
         buttons.forEach(function (button) {
@@ -89,13 +90,17 @@ function number(num) {
         if (result.innerText !== "0.") {
             if (result.innerText === "0" && num === ".") {
                 result.innerText = result.innerText + '.';
-            } else if (num !== '.' && (result.innerText === "0" || parseFloat(result.innerText) === parseFloat(opOne) || parseFloat(result.innerText) === parseFloat(prevResult) || parseFloat(result.innerText) === (parseFloat(prevResult)) * -1)) {
+                comp = comp + 1;
+            } else if (num !== '.' && comp === 0 && (result.innerText === "0" || parseFloat(opOne) != null || parseFloat(prevResult) != null)) {
                 result.innerText = num;
+                comp = comp + 1;
             } else if (num === '.') {
-                if (parseFloat(result.innerText) === parseFloat(opOne) || parseFloat(result.innerText) === parseFloat(prevResult) || parseFloat(result.innerText) === (parseFloat(prevResult)) * -1) {
+                if (comp === 0 && (result.innerText === "0" || parseFloat(opOne) != null || parseFloat(prevResult) != null)) {
                     result.innerText = "0.";
+                    comp = comp + 1;
                 } else if (!result.innerText.includes(".")) {
                     result.innerText = result.innerText + '.';
+                    comp = comp + 1;
                 }
             } else {
                 result.innerText += num;
@@ -165,6 +170,7 @@ function operation(op) {
     length = 0;
     opOne = parseFloat(result.innerText);
     operator = op;
+    comp = 0;
 }
 
 decimal.addEventListener("click", () => {
@@ -173,12 +179,13 @@ decimal.addEventListener("click", () => {
 
 reset.addEventListener("click", () => {
     result.innerText = 0;
-    opOne = 0;
+    opOne = null;
     opTwo = 0;
     prevOpTwo = 0;
     operator = null;
-    prevResult = 0;
+    prevResult = null;
     length = 0;
+    comp = 0;
     result.style.fontSize = "3em";
     buttons.forEach(function (button) {
         button.classList.remove('await');
@@ -198,6 +205,7 @@ equals.addEventListener("click", () => {
     }
     operator = null;
     length = 0;
+    comp = 0;
     error();
 });
 
@@ -229,6 +237,7 @@ percent.addEventListener("click", () => {
     opTwo = 0;
     operator = null;
     length = 0;
+    comp = 0;
     error();
 });
 
