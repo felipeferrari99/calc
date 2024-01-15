@@ -46,7 +46,7 @@ document.addEventListener("keydown", (event) => {
             operator = null;
             length = 0;
             error();
-            if (result.innerText.includes(".")) {
+            if (result.innerText.includes(".") && result.innerText.length > 5) {
                 result.innerText = parseFloat(result.innerText).toFixed(3);
                 error();
             }    
@@ -167,7 +167,7 @@ function makeOperation() {
     }
     error();
     result.innerText = calculationResult;
-    if (result.innerText.includes(".")) {
+    if (result.innerText.includes(".") && result.innerText.length > 5) {
         result.innerText = parseFloat(result.innerText).toFixed(3);
         error();
     }    
@@ -192,7 +192,7 @@ function repeatOperation() {
             result.innerText = parseFloat(result.innerText) / prevOpTwo;
             break;
     }
-    if (result.innerText.includes(".")) {
+    if (result.innerText.includes(".") && result.innerText.length > 5) {
         result.innerText = parseFloat(result.innerText).toFixed(3);
         error();
     }    
@@ -213,7 +213,6 @@ function operation(op) {
     opOne = parseFloat(result.innerText);
     if (parseFloat(opOne) == '0.'){
         result.innerText = 0;
-        console.log("cavalos")
     }
     operator = op;
     comp = 0;
@@ -285,7 +284,7 @@ percent.addEventListener("click", () => {
     length = 0;
     comp = 0;
     error();
-    if (result.innerText.includes(".")) {
+    if (result.innerText.includes(".") && result.innerText.length > 5) {
         result.innerText = parseFloat(result.innerText).toFixed(3);
         error();
     }    
