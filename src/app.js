@@ -52,6 +52,7 @@ document.addEventListener("keydown", (event) => {
         }
         operator = null;
         length = 0;
+        comp = 0;
         error();
     } else if (key === 'Escape') {
         result.innerText = 0;
@@ -60,8 +61,9 @@ document.addEventListener("keydown", (event) => {
         prevOpTwo = 0;
         operator = null;
         prevResult = null;
-        result.style.fontSize = "3em";
         length = 0;
+        comp = 0;
+        result.style.fontSize = "3em";
         buttons.forEach(function (button) {
             button.classList.remove('await');
         });
