@@ -94,7 +94,7 @@ function error() {
         result.style.fontSize = "1em";
     } else if (result.innerText.length > 10) {
         result.style.fontSize = "2em";
-    }  else if (result.innerText.length <= 10) {
+    }  else {
         result.style.fontSize = "3em";
     }
 }
@@ -142,12 +142,6 @@ function makeOperation() {
     switch (true) {
         case opOne === 0 && opTwo === 0:
             calculationResult = 0;
-            break;
-        case opOne === 0:
-            calculationResult = opTwo;
-            break;
-        case opTwo === 0:
-            calculationResult = opOne;
             break;
         default:
             switch (operator) {
